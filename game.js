@@ -3,7 +3,6 @@ class Game {
     this.player = new Player(0, 0, 1, player1Score);
     this.player2 = new Player(450, 450, 2, player2Score);
     this.obstacle = new Obstacle();
-    this.score = 0;
   }
 
   play() {
@@ -15,7 +14,6 @@ class Game {
     this.obstacle.drawObstacle();
 
     if (this.isColliding(this.player, this.obstacle)) {
-      // noLoop();
       this.obstacle.resetTopAndLeft();
       this.player.score++;
     }

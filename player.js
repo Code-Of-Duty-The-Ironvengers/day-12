@@ -13,8 +13,6 @@ class Player {
     this.span = span;
   }
 
-  setScore() {}
-
   drawPlayer() {
     this.span.innerText = this.score;
     push();
