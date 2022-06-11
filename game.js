@@ -1,26 +1,55 @@
-// P5 so far has shown us the variables and functions below
-// createCanvas
-// keyIsDown
-// background
-// keyCode -> variable
-// rect
+class Game {
+  constructor() {
+    this.player = new Player(0, 0);
+    this.obstacle = new Obstacle();
+    this.score = 0;
+  }
 
-// draw
-// setup
-// keyPressed
-// SOLID
-// S -> Single Responsibility Principle
+  play() {
+    this.player.move();
 
-function setup() {
-  createCanvas(CANVAS_WIDTH, CANVAS_HEIGHT);
-}
+    this.player.drawPlayer();
+    this.obstacle.drawObstacle();
 
-const player = new Player(0, 0);
+    if (this.isColliding()) {
+      // noLoop();
+      this.obstacle.resetTopAndLeft();
+      this.score++;
+    }
+  }
 
-function draw() {
-  background("orange");
+  isColliding() {
+    // we want to check wether the player it colliding with the obstacle
+    // conditions for true collision
+    // Bottom of A >= Top of B
+    // Top of A <= Bottom of B
+    // Left of A <= Right of B
+    // Right of A >= Left of B
 
-  player.drawPlayer();
+    // for sake of argument, lets say player is A and obstacle is B
 
-  player.move();
+    const bottomOfA = this.player.top + this.player.height;
+    const topOfB = this.obstacle.top;
+    const isBottomOfABiggerThenTopOfB = bottomOfA > topOfB;
+
+    const topOfA = this.player.top;
+    const bottomOfB = this.obstacle.height + this.obstacle.top;
+
+    const isTopOfASmallerThanBottomOfB = topOfA <= bottomOfB;
+
+    const leftOfA = this.player.left;
+    const rightOfB = this.obstacle.left + this.obstacle.width;
+    const isLeftOfASmallerThanRightOfB = leftOfA <= rightOfB;
+
+    const rightOfA = this.player.width + this.player.left;
+    const leftOfB = this.obstacle.left;
+    const isRightOfABiggerThanLeftOfB = rightOfA >= leftOfB;
+
+    return (
+      isBottomOfABiggerThenTopOfB &&
+      isTopOfASmallerThanBottomOfB &&
+      isLeftOfASmallerThanRightOfB &&
+      isRightOfABiggerThanLeftOfB
+    );
+  }
 }
